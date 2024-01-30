@@ -1,32 +1,56 @@
+import csv
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as EC
-import csv
-
-import time
-
 from selenium.webdriver.support.wait import WebDriverWait
 
+import time
+import random
+
+# List of proxies to rotate through
+proxies = [
+    '164.68.105.216:80',
+    '134.209.29.120: 8080',
+    '41.77.188.131:80',
+    '195.23.57.78:80',
+    '50.231.172.74:80'
+    # Add more proxies as needed
+]
+
+# set options
 options = Options()
 options.add_argument("--headless")
 options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
 
-driver = webdriver.Chrome(options=options)
+def get_random_proxy():
+    return random.choice(proxies)
 
-# Replace 'https://example.com' with the actual URL of the website you want to visit
+def set_proxy(proxy):
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument(f'--proxy-server={proxy}')
+    return webdriver.Chrome(options=chrome_options)
 
+def find_relevant_info(results_container_element: WebElement) -> WebElement:
+    return results_container_element.find_element(By.CLASS_NAME, "VkpGBb")
 
-def get_company_info(url, name_to_type):
-    driver = webdriver.Chrome()
-
+def get_company_info(url, name_to_type, proxy):
     try:
+        # Initialize driver with proxy
+        driver = set_proxy(proxy)
+
         # Navigate to the specified URL
         driver.get(url)
+    except Exception as e:
+        print("Error loading page")
+        print(str(e))
+        return None
 
+    try:
         # Type the name into the text box
-        text_box = WebDriverWait(driver, 10).until(
+        text_box = WebDriverWait(driver, 30).until(
             EC.presence_of_element_located((By.CLASS_NAME, "oc-header-search__input"))
         )
         text_box.send_keys(name_to_type)
@@ -38,33 +62,34 @@ def get_company_info(url, name_to_type):
         first_link = WebDriverWait(driver, 30).until(
             EC.element_to_be_clickable((By.XPATH, "//a[@class='company_search_result branch']"))
         )
+
+        # Print the selected proxy
+        print(f"Using Proxy: {proxy}")
+
         first_link.click()
 
-        # Optional: Wait for a few seconds to see the result (you may adjust the sleep time accordingly)
-        time.sleep(10)
-
         # Get agent name
-        agent_name = WebDriverWait(driver, 20).until(
+        agent_name = WebDriverWait(driver, 30).until(
             EC.presence_of_element_located((By.CLASS_NAME, "agent_name"))
         )
 
         # Get agent address
-        agent_address = WebDriverWait(driver, 50).until(
+        agent_address = WebDriverWait(driver, 30).until(
             EC.presence_of_element_located((By.CLASS_NAME, "agent_address"))
         )
 
         # Get original business name
-        company_name = WebDriverWait(driver, 10).until(
+        company_name = WebDriverWait(driver, 40).until(
             EC.presence_of_element_located((By.CLASS_NAME, "wrapping_heading"))
         )
         Company = company_name.text.strip()
 
         # Get alternative name
-        dd_element = WebDriverWait(driver, 10).until(
+        dd_element = WebDriverWait(driver, 30).until(
             EC.presence_of_element_located((By.CLASS_NAME, "alternative_names"))
         )
         li_element = dd_element.find_element(By.CSS_SELECTOR, "ul.name_lines li.name_line")
-        alternative_name = li_element.text
+        alternative_name = li_element.text.strip()
 
         return {
             "Alternative Name of business": alternative_name,
@@ -72,13 +97,12 @@ def get_company_info(url, name_to_type):
             "Agent Address": agent_address.text,
             "Original business name": Company
         }
-
     except Exception as e:
-        print(f"Error processing {name_to_type}: {str(e)}")
+        print("Error during information retrieval")
+        print(str(e))
         return None
-
     finally:
-        # Close the browser window
+        # Close the WebDriver instance
         driver.quit()
 
 def process_names(input_csv, output_csv, url, limit=30):
@@ -97,16 +121,23 @@ def process_names(input_csv, output_csv, url, limit=30):
                     break
 
                 name_to_type = row.get("name", "")
-                result = get_company_info(url, name_to_type)
+
+                # Get a random proxy for each iteration
+                proxy = get_random_proxy()
+
+                # Use the proxy in the get_company_info function
+                result = get_company_info(url, name_to_type, proxy)
 
                 if result:
                     row.update(result)
                     writer.writerow(row)
 
-# Example usage:
-input_csv = "google_restaurants_list.csv"  # Replace with your input CSV file path
-output_csv = "output.csv"  # Replace with your desired output CSV file path
-url = 'https://opencorporates.com/companies/us_wv?q=&utf8=%E2%9C%93'
+                    # Introduce a delay before the next iteration
+                    time.sleep(10)  # Adjust the sleep duration as needed
 
+# Example usage:
+input_csv = "google_restaurants_list.csv"
+output_csv = "output.csv"
+url = 'https://opencorporates.com/companies/us_wv?q=&utf8=%E2%9C%93'
 
 process_names(input_csv, output_csv, url, limit=30)
