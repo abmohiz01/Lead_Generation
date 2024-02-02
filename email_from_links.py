@@ -1,15 +1,16 @@
+import json
 from typing import Any
-import requests
-from bs4 import BeautifulSoup
-import re
-from collections import deque
 from urllib.parse import urlparse, urljoin
+from collections import deque
+from bs4 import BeautifulSoup
+import requests
+import re
 import logging
+
 
 # Setting up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
-
 
 class WebCrawler:
     def __init__(self, seed_url: str):
@@ -79,10 +80,23 @@ class WebCrawler:
         logger.info("Finished crawling.")
         return crawled_data
 
+    def convert_to_json(self, crawled_data: list[tuple[str, dict[str, list[Any]]]]) -> str:
+        json_data = []
+        for url, emails in crawled_data:
+            json_data.append({
+                "url": url,
+                "emails": emails
+            })
+        return json.dumps(json_data, indent=2)
+
+    def save_json_to_file(self, json_data: str, filename: str = "crawled_data.json"):
+        with open(filename, "w") as json_file:
+            json_file.write(json_data)
+
 
 # Example usage
 seed_url = "https://elkriverhotel.com/"
 crawler = WebCrawler(seed_url)
 data = crawler.crawl()
-for url, emails in data:
-    logger.info(f"URL: {url}, Emails: {emails}")
+json_data = crawler.convert_to_json(data)
+crawler.save_json_to_file(json_data)
