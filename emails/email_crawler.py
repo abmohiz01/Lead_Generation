@@ -10,7 +10,9 @@ class MailSpider(CrawlSpider):
     start_urls = ['https://www.jerseymikes.com/26001/charles-town-wv']
 
     custom_settings = {
-        'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36'
+        'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
+        'DEPTH_LIMIT': '2'
+
     }
     # Define rules for crawling
     def __init__(self, *args, **kwargs):
@@ -18,10 +20,11 @@ class MailSpider(CrawlSpider):
         self.allowed_domains = [urlparse(url).netloc for url in self.start_urls]
     # Define rules for crawling
     rules = (
-        # Prioritize 'contact' and 'about' pages, ensuring they are within the start_urls path
         Rule(LinkExtractor(allow=(r'/contact', r'/about')), follow=True, callback='parse_item'),
-        # Avoid crawling external sites like Facebook, Google, or Instagram
-        Rule(LinkExtractor(deny_domains=('facebook.com', 'google.com', 'instagram.com')), follow=True, callback='parse_item'),
+        Rule(LinkExtractor(deny_domains=(
+            'facebook.com', 'google.com', 'instagram.com', 'linkedin.com', 'youtube.com', 'twitter.com', 'apple.com')),
+            follow=True,
+            callback='parse_item'),
     )
 
 
