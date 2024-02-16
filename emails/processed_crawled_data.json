@@ -1,53 +1,53 @@
 {
-    "foxspizza.com": [
-        "info@foxpizza.com",
-        "info@foxspizza.com"
-    ],
-    "buffalowildwings.com": [
-        "privacy@inspirebrands.com",
-        "support@blazinrewards.com",
-        "bwwgiftcards@inspirebrands.com"
+    "pizzatonightcom": [
+        "dcorona@jamesrumsey.net"
     ],
     "spiceconnexion.com": [
         "info@spiceconnexion.com"
     ],
     "goldencorral.com": [
+        "goodasgoldclubsupport@fishbowl.com",
         "jbunn@goldencorral.net",
         "marketing_support@goldencorral.net",
-        "goodasgoldclubsupport@fishbowl.com",
-        "gccares@goldencorral.net",
-        "mediarelations@goldencorral.net"
+        "mediarelations@goldencorral.net",
+        "gccares@goldencorral.net"
+    ],
+    "foxspizza.com": [
+        "info@foxspizza.com",
+        "info@foxpizza.com"
     ],
     "dairyqueen.com": [
-        "donotreply@dairyqueen.com",
-        "DQCares@idq.com",
         "DQFanRelations@marketforce.com",
-        "u003eDQCares@idq.com"
+        "u003eDQCares@idq.com",
+        "DQCares@idq.com",
+        "donotreply@dairyqueen.com"
     ],
     "acandt.com": [
         "yourname@domain.com"
     ],
-    "mbcparks-rec.org": [
-        "panhandlepridelax@gmail.com",
-        "john@doe.com",
-        "info@EWVCF.org",
-        "Moises@scmarketingwv.com",
-        "tpcdance88@gmail.com"
-    ],
     "locations.outback.com": [
         "obs210O@outback.com"
     ],
-    "pizzatonightcom": [
-        "dcorona@jamesrumsey.net"
+    "buffalowildwings.com": [
+        "privacy@inspirebrands.com",
+        "bwwgiftcards@inspirebrands.com",
+        "support@blazinrewards.com"
     ],
     "logansroadhouse.com": [
-        "GuestExperience@SPBHospitality.com",
         "Kern@SPBHospitality.com",
-        "media@spbhospitality.com",
-        "marketing@logansroadhouse.com",
         "Catering@SPBHospitality.com",
-        "logansroadhousegiftcardsupport@cashstar.com",
         "steakholders@cwrestaurants.com",
-        "steakholders@spbhospitality.com"
+        "media@spbhospitality.com",
+        "steakholders@spbhospitality.com",
+        "GuestExperience@SPBHospitality.com",
+        "marketing@logansroadhouse.com",
+        "logansroadhousegiftcardsupport@cashstar.com"
+    ],
+    "mbcparks-rec.org": [
+        "Moises@scmarketingwv.com",
+        "info@EWVCF.org",
+        "tpcdance88@gmail.com",
+        "panhandlepridelax@gmail.com",
+        "john@doe.com"
     ]
 }
