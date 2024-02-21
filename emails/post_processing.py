@@ -2,7 +2,9 @@ import json
 from urllib.parse import urlparse
 from publicsuffixlist import PublicSuffixList
 import re
+
 # Load the crawled data
+
 with open('Pre_crawled_emails.json', 'r') as file:
     crawled_data = json.load(file)
 
