@@ -1,8 +1,28 @@
 import json
 from urllib.parse import urlparse
+from publicsuffixlist import PublicSuffixList
+import re
 # Load the crawled data
 with open('emails2.json', 'r') as file:
     crawled_data = json.load(file)
+
+psl = PublicSuffixList()
+
+def extract_domain(url):
+    """
+    Extracts the primary domain from a URL, even if it's a subdomain.
+    """
+    netloc = urlparse(url).netloc
+    # Use PublicSuffixList to get the correct domain from a URL
+    domain = psl.privatesuffix(netloc)
+    return domain if domain else netloc  # Fallback to netloc if domain extraction fails
+
+def should_exclude_email(email):
+    """
+    Checks if the given email matches any of the patterns that should be excluded.
+    """
+    excluded_patterns = [r"@domain\.com$", r"your@mail\.com", r"@godaddy\.com$"]
+    return any(re.search(pattern, email) for pattern in excluded_patterns)
 
 def process_crawled_data(crawled_data):
     domain_emails = {}
@@ -10,10 +30,10 @@ def process_crawled_data(crawled_data):
     for item in crawled_data:
         url = item.get('url')
         email = item.get('email')
-        domain = urlparse(url).netloc
+        if should_exclude_email(email):
+            continue  # Skip unwanted emails
 
-        # Normalize the domain by removing 'www.' or 'ww.'
-        normalized_domain = domain.replace('www.', '').replace('ww.', '')
+        normalized_domain = extract_domain(url)
 
         if normalized_domain not in domain_emails:
             domain_emails[normalized_domain] = set()
