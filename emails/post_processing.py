@@ -3,7 +3,7 @@ from urllib.parse import urlparse
 from publicsuffixlist import PublicSuffixList
 import re
 # Load the crawled data
-with open('emails2.json', 'r') as file:
+with open('Pre_crawled_emails.json', 'r') as file:
     crawled_data = json.load(file)
 
 psl = PublicSuffixList()
