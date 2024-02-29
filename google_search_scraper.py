@@ -1,3 +1,7 @@
+'''
+This Module search for : restaurants in wv
+    and prints the first restaurant name.
+'''
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -12,8 +16,9 @@ options.add_argument("--window-size=1920,1200")
 options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
 
 
-def get_restaurant_info(search_query):
-
+def get_restaurant_info(search_query:str) -> None:
+    '''Function to open google search, type the text and click search button
+    after search button print the name of first search element.'''
     try:
         # Construct the search URL
         base_url = "https://www.google.com/search?q="
@@ -31,7 +36,7 @@ def get_restaurant_info(search_query):
 
         # Wait for the element with the information you want to retrieve (adjust timeout as needed)
         info_element = WebDriverWait(driver, 100).until(
-            EC.presence_of_element_located((By.XPATH, "//div[@class='dbg0pd' and @aria-level="3"]/span[@class='OSrXXb']"))
+            EC.presence_of_element_located((By.XPATH, "//div[@class='dbg0pd' and @aria-level=3]/span[@class='OSrXXb']"))
         )
 
         # Get text from the info element
