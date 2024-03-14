@@ -12,7 +12,7 @@ This project was designed to support a digital marketing agency by providing lea
 
 - Separated restaurants with Facebook links instead of websites.
 
-- Developed a scrappy crawler to extract business emails from the restaurants' websites.
+- Developed a scrapy crawler to extract business emails from the restaurants' websites.
 
 - Implemented a scraper for Facebook links to extract email and information from each Facebook link of restaurants.
 
@@ -72,7 +72,7 @@ scrapy genspider spider_name.
 ```
 to create a new Spider
 
-3. Run your Spide Using:  
+3. Run your Spider Using:  
 ```bash
 scrapy crawl spider_name.
 ```
@@ -81,7 +81,7 @@ to run your Spider and start scraping.
 4. To get the output of the crawler as an email, use the following command:
 
 ```bash
-scrapy crawl spider_name -o filename.jso..
+scrapy crawl spider_name -o filename.json
 ```
 to run your Spider and start scraping
 
