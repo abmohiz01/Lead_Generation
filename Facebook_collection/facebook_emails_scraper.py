@@ -33,8 +33,8 @@ with open('facebook_restaurants.json', 'w') as f:
     json.dump(facebook_domains, f)
 
 driver.get('https://www.facebook.com')
-driver.find_element(By.ID, 'email').send_keys('creativecatalyst21@gmail.com')
-driver.find_element(By.ID, 'pass').send_keys('W1ld&W0nderful')
+driver.find_element(By.ID, 'email').send_keys('$$$$$$$$$$$$@gmail.com')
+driver.find_element(By.ID, 'pass').send_keys('$$$$$$$$$$')
 driver.find_element(By.XPATH,
                     '/html/body/div[1]/div[1]/div[1]/div/div/div/div[2]/div/div[1]/form/div[2]/button').click()
 time.sleep(10)

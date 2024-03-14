@@ -138,7 +138,7 @@ counties_coordinates = {
     "Wyoming County": "37.6127, -81.5470"
 }
 
-API_KEY = 'AIzaSyD4JmOH9C7_WQ0bHoRWN-KxNVaMreG1Nw8'
+API_KEY = '&&&&&&&&&&&&&&&&&&&'
 restaurants = get_restaurants_for_counties(API_KEY, counties_coordinates)
 
 with open('west_virginia_restaurants.csv', mode='w', newline='', encoding='utf-8') as file:
